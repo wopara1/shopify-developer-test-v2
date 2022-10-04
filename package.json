@@ -1,0 +1,16 @@
+{
+  "name": "shopify-developer-test",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Cadence Labs",
+  "description": "Take home test for Shopify developer candidates.",
+  "keywords": [
+    "shopify",
+    "theme"
+  ],
+  "scripts": {
+    "download:dev": "theme download -d . -e development",
+    "deploy:dev": "theme deploy --env=development",
+    "watch": "theme watch"
+  }
+}

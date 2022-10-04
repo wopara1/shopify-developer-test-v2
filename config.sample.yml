@@ -1,0 +1,4 @@
+development:
+  password: <THEME_KIT_PASSWORD>
+  theme_id: <YOUR_THEME_ID>
+  store: <STORE_URL>
