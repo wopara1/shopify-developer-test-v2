@@ -26,8 +26,6 @@
     }
   {%- endstyle -%}
 
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-
   {%- assign first_3d_model = product.media | where: "media_type", "model" | first -%}
   {%- if first_3d_model -%}
     {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
@@ -480,13 +478,18 @@
                     {%- for option in product.options_with_values -%}
                       <fieldset class="js product-form__input">
                         <legend class="form__label">{{ option.name }}</legend>
+                        <div class="variant-swatch-container">
                         {%- for value in option.values -%}
+                          {%- assign variant = product.variants | where: 'option1', value | first -%}
+                          {%- if variant and variant.featured_image -%}
                           <input
                             type="radio"
                             id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
                             name="{{ option.name }}"
                             value="{{ value | escape }}"
                             form="{{ product_form_id }}"
+                            class="variant-swatch-input"
+                            data-variant-img="{{ variant.featured_image | img_url: 'master' }}"
                             {% if option.selected_value == value %}
                               checked
                             {% endif %}
@@ -494,13 +497,16 @@
                           <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
                             {{ value }}
                           </label>
+                        {%- endif -%}
                         {%- endfor -%}
+                        </div>
                       </fieldset>
                     {%- endfor -%}
                     <script type="application/json">
                       {{ product.variants | json }}
                     </script>
                   </variant-radios>
+                  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
                 {%- else -%}
                   <variant-selects
                     class="no-js-hidden"
@@ -542,7 +548,7 @@
                   </variant-selects>
                 {%- endif -%}
               {%- endunless -%}
-
+              
               <noscript class="product-form__noscript-wrapper-{{ section.id }}">
                 <div class="product-form__input{% if product.has_only_default_variant %} hidden{% endif %}">
                   <label class="form__label" for="Variants-{{ section.id }}">
@@ -997,6 +1003,8 @@
       </div>
     {%- endif -%}
   </div>
+
+  
 
   <product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
     <div

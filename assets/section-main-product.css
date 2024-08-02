@@ -169,6 +169,22 @@
   border: none;
 }
 
+.variant-swatch-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.variant-swatch-label {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 0.5rem;
+  border-radius: 50%;
+}
+
 variant-radios,
 variant-selects {
   display: block;
@@ -198,18 +214,27 @@ fieldset.product-form__input .form__label {
   border: var(--variant-pills-border-width) solid rgba(var(--color-foreground), var(--variant-pills-border-opacity));
   background-color: rgb(var(--color-background));
   color: rgba(var(--color-foreground));
-  border-radius: var(--variant-pills-radius);
-  color: rgb(var(--color-foreground));
-  display: inline-block;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: inline-flex;
   margin: 0.7rem 0.5rem 0.2rem 0;
-  padding: 1rem 2rem;
+  padding: 1rem ;
   font-size: 1.4rem;
   letter-spacing: 0.1rem;
   line-height: 1;
+  align-items: center; 
+  justify-content: center;
   text-align: center;
   transition: border var(--duration-short) ease;
   cursor: pointer;
   position: relative;
+}
+
+/* JavaScript will update this */
+.product-form__input input[type='radio'] + label {
+  background-size: cover;
+  background-position: center;
 }
 
 .product-form__input input[type='radio'] + label:before {
