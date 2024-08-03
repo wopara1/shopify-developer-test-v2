@@ -11,6 +11,22 @@ document.addEventListener('DOMContentLoaded', function() {
         this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
         this.submitButton = this.querySelector('[type="submit"]');
         if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
+
+        this.quantityInput = document.querySelector('.quantity__input');
+        if (this.quantityInput) {
+          this.totalPriceElement = document.querySelector('.total-price');
+          this.basePrice = parseFloat(this.quantityInput.dataset.price) / 100;
+
+          this.quantityInput.addEventListener('input', this.updateTotalPrice.bind(this));
+          this.quantityInput.addEventListener('change', this.updateTotalPrice.bind(this));
+          document.querySelectorAll('.quantity__button').forEach(button => {
+            button.addEventListener('click', this.updateTotalPrice.bind(this));
+          });
+
+          this.updateTotalPrice();
+        } else {
+          console.error('Quantity input not found');
+        }
       }
 
       initVariantSwatches() {
@@ -60,12 +76,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
       updateSelectedVariant(optionPosition, variantName) {
         const selectedVariantElement = document.querySelector(`#selected-variant-${optionPosition}`);
-        console.log("selectedVariantElement:"+selectedVariantElement)
         if (selectedVariantElement) {
           selectedVariantElement.textContent = variantName;
         } else {
-          console.error(`Element #selected-${selectedVariantElement} not found`);
+          console.error(`Element #selected-variant-${optionPosition} not found`);
         }
+      }
+
+      updateTotalPrice() {
+        const quantity = parseInt(this.quantityInput.value, 10) || 1;
+        const totalPrice = (this.basePrice * quantity).toFixed(2);
+        this.totalPriceElement.textContent = `Your total: $${totalPrice}`;
       }
 
       onSubmitHandler(evt) {

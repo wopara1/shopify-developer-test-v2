@@ -399,6 +399,7 @@
                     min="1"
                     value="1"
                     form="{{ product_form_id }}"
+                    data-price="{{ product.selected_or_first_available_variant.price }}"
                   >
                   <button class="quantity__button no-js-hidden" name="plus" type="button">
                     <span class="visually-hidden">
@@ -407,6 +408,11 @@
                     {% render 'icon-plus' %}
                   </button>
                 </quantity-input>
+                <div class="total-price" id="TotalPrice-{{ section.id }}">
+                  <h3>
+                    Your total :
+                  </h3>
+                    {{ product.selected_or_first_available_variant.price | money }}
               </div>
             {%- when 'popup' -%}
               <modal-opener
