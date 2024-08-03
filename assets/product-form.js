@@ -35,8 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
       onVariantChange(event) {
         const variantId = event.target.value;
+        const variantName = event.target.dataset.variantName;
+        const optionPosition = event.target.dataset.optionPosition;
         this.updateVariantIdInput(variantId);
         this.updateGalleryImage(variantId);
+        this.updateSelectedVariant(optionPosition, variantName);
       }
 
       updateVariantIdInput(variantId) {
@@ -53,6 +56,16 @@ document.addEventListener('DOMContentLoaded', function() {
             img.classList.remove('active');
           }
         });
+      }
+
+      updateSelectedVariant(optionPosition, variantName) {
+        const selectedVariantElement = document.querySelector(`#selected-variant-${optionPosition}`);
+        console.log("selectedVariantElement:"+selectedVariantElement)
+        if (selectedVariantElement) {
+          selectedVariantElement.textContent = variantName;
+        } else {
+          console.error(`Element #selected-${selectedVariantElement} not found`);
+        }
       }
 
       onSubmitHandler(evt) {

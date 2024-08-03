@@ -26,6 +26,8 @@
     }
   {%- endstyle -%}
 
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
   {%- assign first_3d_model = product.media | where: "media_type", "model" | first -%}
   {%- if first_3d_model -%}
     {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
@@ -477,7 +479,12 @@
                   >
                     {%- for option in product.options_with_values -%}
                       <fieldset class="js product-form__input">
-                        <legend class="form__label">{{ option.name }}</legend>
+                        <legend class="form__label">
+                          {{ option.name }} :
+                          <span id="selected-variant-{{ option.position }}">
+                            {{ option.selected_value }}
+                          </span>
+                        </legend>
                         <div class="variant-swatch-container">
                         {%- for value in option.values -%}
                           {%- assign variant = product.variants | where: 'option1', value | first -%}
@@ -490,6 +497,8 @@
                             form="{{ product_form_id }}"
                             class="variant-swatch-input"
                             data-variant-img="{{ variant.featured_image | img_url: 'master' }}"
+                            data-variant-name="{{ value }}"
+                            data-option-position="{{ option.position }}"
                             {% if option.selected_value == value %}
                               checked
                             {% endif %}
@@ -506,7 +515,6 @@
                       {{ product.variants | json }}
                     </script>
                   </variant-radios>
-                  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
                 {%- else -%}
                   <variant-selects
                     class="no-js-hidden"
@@ -549,6 +557,8 @@
                 {%- endif -%}
               {%- endunless -%}
               
+              <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
               <noscript class="product-form__noscript-wrapper-{{ section.id }}">
                 <div class="product-form__input{% if product.has_only_default_variant %} hidden{% endif %}">
                   <label class="form__label" for="Variants-{{ section.id }}">
